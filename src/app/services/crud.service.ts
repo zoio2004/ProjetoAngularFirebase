@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
     providedIn: 'root',
 })
 
-export class AdminCrudService {
+export class CrudService {
     isLoading: boolean = false;
     handlerMessage = '';
     roleMessage = '';
@@ -28,10 +28,12 @@ export class AdminCrudService {
     */
     insert(item: any, remoteCollectionName: string): Boolean {
         let result = false;
+        
         if (!item) { 
             this._message.show('Não foi possível salvar'); 
             return false;
         }
+
         this.isLoading = true;
         const dbInstance = collection(this.firestore, remoteCollectionName);
         addDoc(dbInstance, item)
@@ -50,7 +52,7 @@ export class AdminCrudService {
 
     /*
     * @description: Pegar todos os itens do banco de dados
-    * @param collection: string
+    * @param remoteCollection: string
     */
     fetchAll(remoteCollectionName: string): Promise<any> {
         //this._auth.isAdmin();
@@ -64,7 +66,7 @@ export class AdminCrudService {
                 return [
                     ...response.docs.map((item) => {
                         return { ...item.data(), id: item.id 
-                    };
+                    }; 
                 })];
             })
             .catch((_: any) => {

@@ -6,15 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  isLoading: boolean = false;
 
   constructor() {
     this.getData();
   }
 
+
   getData(){
-    fetch('http://localhost/api/usuario/listar-todos')
-    // .then(T => T.json())
-    .then(console.log)
+    this.isLoading = true;
+
+    fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+    .then( dados => dados.json() )
+    .then(dados => { console.log(dados)})
+    .catch( erro => { console.log(erro) })
+    .finally( () => { this.isLoading = false; })
   }
 
 }

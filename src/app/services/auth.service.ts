@@ -26,6 +26,7 @@ export class AuthenticateService {
     * */
     public async register(email: string, password: string): Promise<boolean> {
         this.isLoading = true;
+
         createUserWithEmailAndPassword(this.auth, email, password)
         .then(() => {
             this.redirectTo('/login'); // redireciona para a página de login (escolha a página desejada)
