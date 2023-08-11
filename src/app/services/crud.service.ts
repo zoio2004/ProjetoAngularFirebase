@@ -27,6 +27,7 @@ export class CrudService {
     * @param collection: string
     */
     insert(item: any, remoteCollectionName: string): Boolean {
+        console.log(item)
         let result = false;
         
         if (!item) { 
@@ -157,7 +158,7 @@ export class CrudService {
             ...data
         })
             .then(() => {
-                this._message.show('Tarefa enviada!!!');
+                this._message.show('Informação Atualizada!');
                 result = true;
                 
             })

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, isStandalone } from '@angular/core';
+import { AuthenticateService } from '../services/auth.service';
+import { CrudService } from '../services/crud.service';
 
 @Component({
   selector: 'app-home',
@@ -8,19 +10,70 @@ import { Component } from '@angular/core';
 export class HomePage {
   isLoading: boolean = false;
 
-  constructor() {
-    this.getData();
+  alunos = [];
+
+  nome = 'Joaozinho';
+
+  aluno = {
+    nome: null,
+    idade: null,
+    ra: null,
+    id: null
+  }
+
+  constructor(
+    public _authenticate: AuthenticateService,
+    private _crudService: CrudService
+  ) { }
+
+  criarConta(dados: any){
+    this._authenticate.register(dados.email, dados.password)
+  }
+
+  realizarLogin(dados: any) {
+    this._authenticate.login(dados.email, dados.password);
+  }
+
+  inserirAluno(dados: any){
+    this.aluno.nome = dados.nome;
+    // this.aluno.idade = 10;
+    // this.aluno.ra = 321321;
+
+    this._crudService.insert(this.aluno, 'alunos');
+  }
+
+  listarAlunos(){
+    this._crudService.fetchAll('alunos')
+    .then( alunos => {
+      this.alunos = alunos;
+    })
   }
 
 
-  getData(){
-    this.isLoading = true;
+  removerAluno(aluno: any){
+    console.log(aluno);
+    this._crudService.remove(aluno.id, 'alunos')
+  }
 
-    fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
-    .then( dados => dados.json() )
-    .then(dados => { console.log(dados)})
-    .catch( erro => { console.log(erro) })
-    .finally( () => { this.isLoading = false; })
+  consultarAluno(dados: any){
+    console.log(dados);
+    this._crudService.fetchByOperatorParam('nome', '==', dados.nome, 'alunos')
+    .then( aluno => {
+      console.log(aluno[0].id);
+    })
+  }
+
+  atualizarDadosAluno(dados: any){
+    if (this.aluno.id == null) {
+      this._crudService.fetchByOperatorParam('nome', '==', dados.nome, 'alunos')
+      .then( aluno => {
+        this.aluno = aluno[0];
+        console.log(this.aluno);
+      })
+    } else {
+      this._crudService.update(this.aluno.id, dados, 'alunos');
+    }
+    
   }
 
 }
