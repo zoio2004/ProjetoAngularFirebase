@@ -147,6 +147,26 @@
     </ion-row>
 
 
+    <!-- TEMPLATE PARA ENVIAR ARQUIVO PARA O FIREBASE -->
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="6">
+        <ion-item>
+          <input type="file" value="Upload" (change)="memorizarArquivo($event)">
+        </ion-item>
+        <ion-item>
+          <ion-button color="medium" slot="end" size="small" (click)="fazerUpload()">Enviar Tarefa</ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-lg="6">
+        <ion-item>
+          <img src="https://firebasestorage.googleapis.com/v0/b/projetoexemplo-e640c.appspot.com/o/minha_imagem.jpeg?alt=media&token=5b63e63b-081b-493b-981d-4ff73b18b14e" alt="">
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
 
   
 
