@@ -10,7 +10,6 @@ import { MessageService } from '../services/message.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  isLoading: boolean = false;
 
   alunos = [];
 
@@ -25,12 +24,35 @@ export class HomePage {
 
   public file: any = {};
 
+  isLoading: boolean = false;
+
   constructor(
     public _authenticate: AuthenticateService,
     private _crudService: CrudService,
     public storage: Storage,
     private _message: MessageService
   ) { }
+
+    getData(){
+      this.isLoading = true;
+      fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+      .then(response => response.json())
+      .then(dados => { 
+        console.log(dados);
+      })
+      .catch(erro =>{
+        console.log(erro);
+      })
+      .finally(()=>{
+        this.isLoading = false;
+        console.log('Requisição Finalizada!');
+      })
+    }
+
+
+
+
+
 
   criarConta(dados: any){
     this._authenticate.register(dados.email, dados.password)
