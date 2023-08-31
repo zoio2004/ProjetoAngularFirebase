@@ -34,6 +34,21 @@ export class HomePage {
     private _message: MessageService
   ) { }
 
+  // código PHP
+  /*
+    <?php
+    declare(strict_types=1);
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+    header("Access-Control-Allow-Headers: Content-Type");
+
+    sleep(2);
+    echo json_encode([
+        'dados' => 'Resposta da API'
+    ]);
+?>
+  */
+
   pegarDados() {
     this.isLoading = true;
     fetch('http://localhost/api_fatec/index.php')
