@@ -25,6 +25,7 @@ export class HomePage {
   public file: any = {};
 
   isLoading: boolean = false;
+  nome_usuario: any;
 
   constructor(
     public _authenticate: AuthenticateService,
@@ -33,29 +34,27 @@ export class HomePage {
     private _message: MessageService
   ) { }
 
-    getData(){
-      this.isLoading = true;
-      fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
-      .then(response => response.json())
-      .then(dados => { 
-        console.log(dados);
-      })
-      .catch(erro =>{
-        console.log(erro);
-      })
-      .finally(()=>{
-        this.isLoading = false;
-        console.log('Requisição Finalizada!');
-      })
-    }
-
-
-
-
+  pegarDados() {
+    this.isLoading = true;
+    fetch('http://localhost/api_fatec/index.php')
+    .then(response => response.json())
+    .then(resposta => {
+      localStorage.setItem('nome_usuario', JSON.stringify(resposta.usuario_info))
+      console.log('Resposta do localstorage')
+      console.log(localStorage.getItem('nome_usuario'))
+    })
+    .catch(erro => {
+      console.log(erro)
+    })
+    .finally(() => {
+      console.log('Processo Finalizado!');
+      this.isLoading = false;
+    })
+  }
 
 
   criarConta(dados: any){
-    this._authenticate.register(dados.email, dados.password)
+    console.log(dados.email);
   }
 
   realizarLogin(dados: any) {
